@@ -1,0 +1,35 @@
+<%- include('../../fragments/header.ejs') %>
+<main>
+    <h2>Lista Katedr</h2>
+    <table class="table-list">
+        <tr>
+            <th>Nazwa</th>
+            <th>Ilość godzin</th>
+            <th>Opis</th>
+            <th>Opcje</th>
+        </tr>
+        <tbody>
+        <% for (let dept of depts) { %>
+            <tr>
+                <td><%= dept.name %></td>
+                <td><%= dept.totalHours %></td>
+                <td><%= dept.description %></td>
+
+                <td>
+                    <ul class="list-actions">
+                        <li><a href="/departments/details/<%= dept._id %>" class="list-actions-button-details">
+                                Szczegóły</a>
+                        </li>
+                        <li><a href="/departments/edit/<%= dept._id %>" class="list-actions-button-edit"> Edytuj</a></li>
+                        <li><a href="/departments/delete/<%= dept._id %>" class="list-actions-button-delete"> Usuń</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+    <p><a href="/departments/add" class="list-actions-button-add">Dodaj nową
+        katedrę</a></p>
+</main>
+<%- include('../../fragments/footer.ejs') %>

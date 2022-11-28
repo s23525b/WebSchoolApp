@@ -1,0 +1,118 @@
+<%- include('../../fragments/header.ejs') %>
+<script type="application/javascript" src="/js/validationFormLecture.js"></script>
+
+<main>
+    <h2><%= pageTitle %></h2>
+
+    <form class="form" method="post" action="<%= formAction %>" novalidate onsubmit="return validationForm();">
+
+        <input type="hidden" name="_id" value="<%= lect._id %>">
+
+
+        <label for="lecture-name">Nazwa: <span class="symbol-required">*</span>
+            <span class="symbol-required"></span></label>
+        <input type="text" name="lecture-name" id="lecture-name" placeholder="np. Technologia Internetu"
+               value="<%= lect.name %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <span id="errorLectureName" class="errors-text"></span>
+
+        <label for="professors">Profesor: <span class="symbol-required">*</span></label>
+        <select name="professors" id="professors" class="select-required" required
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
+            <option value="" selected>--wybierz profesora--</option>
+            <% for (let i = 0; i < allProfs.length; i++) { let prof = allProfs[i]; %>
+            <option value="<%= prof._id %>"> <%= prof.firstName + ' ' + prof.lastName %>
+                <%= (lect._id && prof._id.toString() === lect.prof._id.toString()) ? 'selected' : '' %>
+            </option>
+            <% } %>
+        </select>
+        <span id="errorProfessor" class="errors-text"></span>
+
+        <label for="departments">Katedra: <span class="symbol-required">*</span></label>
+        <select name="departments" id="departments" class="select-required" required
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
+            <option value="" selected>--wybierz katedrę--</option>
+            <% for (let i = 0; i < allDepts.length; i++) { let dept = allDepts[i]; %>
+            <option value="<%= dept._id %>"> <%= dept.name %>
+                <%= (lect._id && dept._id.toString() === lect.department._id.toString()) ? 'selected' : '' %>
+            </option>
+            <% } %>
+        </select>
+        <span id="errorDepartment" class="errors-text"></span>
+
+        <label for="startDate">Czas rozpoczęcia: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="startDate" id="startDate" value="<%= lect.dateFrom %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <span id="errorStartDate" class="errors-text"></span>
+
+        <label for="endDate">Czas zakończenia: </label>
+        <input type="datetime-local" name="endDate" id="endDate" value="<%= lect.dateTo %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <span id="errorEndDate" class="errors-text"></span>
+
+        <label for="duration">Czas trwania: <span class="symbol-required">*</span></label>
+        <input type="text" name="duration" id="duration" placeholder="np. 30" value="<%= lect.duration %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <span id="errorDuration" class="errors-text"></span>
+
+        <% if (formMode !== 'showDetails') { %>
+            <div class="form-buttons">
+            </div>
+        <% } %>
+        <% if (formMode === 'showDetails') { %>
+            <div class="form-buttons">
+                <a href="/lecture/edit/<%= lect._id %> " class="form-button-edit">Edytuj</a>
+            </div>
+        <% } %>
+    </form>
+    <% if (formMode === 'showDetails' || formMode === 'edit') { %>
+
+
+        <h2>Profesor</h2>
+
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>E-mail</th>
+                <th>Specjalizacja</th>
+                <th>Opcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (let p of lect.professors) { %>
+                <tr>
+                    <td><%= p.firstName %></td>
+                    <td><%= p.lastName %></td>
+                    <td><%= p.email %></td>
+                    <td><%= p.specialization %></td>
+                    <td>
+                        <ul class="list-actions">
+                            <li>
+                                <a href="/professors"
+                                   class="list-actions-button-details">Szczegóły</a>
+                            </li>
+                            <li>
+                                <a href="/lectures" class="list-actions-button-delete"
+                                   onclick="return confirm('Are you sure?')">Usuń</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    <% } %>
+    <div class="form-buttons">
+        <span class="errors-text" id="errorsSummary"></span>
+        <% if (formMode !== 'showDetails') { %>
+            <input class="form-button-submit" type="submit" value="<%= btnLabel %>"/>
+            <a class="form-button-cancel" href="/lectures">Anuluj</a>
+        <% } else { %>
+            <a class="form-button-cancel" href="/lectures">Powrót</a>
+        <% } %>
+    </div>
+
+</main>
+<%- include('../../fragments/footer.ejs') %>

@@ -1,0 +1,37 @@
+<%- include('../../fragments/header.ejs') %>
+<main>
+    <h2>Lista profesorów</h2>
+    <table class="table-list">
+        <tr>
+            <th class="tableName">Imię</th>
+            <th class="tableSurname">Nazwisko</th>
+            <th class="tableEmail">E-mail</th>
+            <th class="tableSpec">Specjalizacja</th>
+            <th class="tableSettings">Opcje</th>
+        </tr>
+        <tbody>
+        <% for (let prof of profs) { %>
+            <tr>
+                <td><%= prof.firstName %></td>
+                <td><%= prof.lastName %></td>
+                <td><%= prof.email %></td>
+                <td><%= prof.specialization %></td>
+                <td>
+                    <ul class="list-actions">
+                        <li><a href="/professors/details/<%= prof._id %>" class="list-actions-button-details">
+                                Szczegóły</a>
+                        </li>
+                        <li><a href="/professors/edit/<%= prof._id %>" class="list-actions-button-edit"> Edytuj</a></li>
+                        <li><a href="/professors/delete/<%= prof._id %>" class="list-actions-button-delete"> Usuń</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+    <p><a href="/professors/add" class="list-actions-button-add">Dodaj nowego
+            profesora</a></p>
+</main>
+
+<%- include('../../fragments/footer.ejs') %>
