@@ -36,31 +36,63 @@ exports.showAddLectureForm = (req, res, next) => {
 
 exports.showLectureDetails = (req, res, next) => {
     const lectId = req.params.lectId;
-    LectureRepository.getLecturesById(lectId)
-        .then(lect => {
-            res.render('pages/lecture/form', {
-                lect: lect,
-                formMode: 'showDetails',
-                pageTitle: 'Szczegóły wykładu',
-                formAction: '',
-                navLocation: 'lect'
-            });
+    let allProfs, allDepts, allLects;
+
+    LectureRepository.getLectures()
+        .then(lects => {
+            allLects = lects;
+            return ProfessorRepository.getProfessors();
+        })
+        .then(profs => {
+            allProfs = profs;
+            return DepartmentRepository.getDepartments();
+        })
+        .then(depts => {
+            allDepts = depts;
+            return LectureRepository.getLecturesById(lectId);
+        }).then(lect => {
+        res.render('pages/lecture/form', {
+            lect: lect,
+            formMode: 'showDetails',
+            pageTitle: 'Szczegóły wykładu',
+            formAction: '/lecture/details',
+            navLocation: 'lect',
+            allProfs,
+            allDepts,
+            allLects
         });
+    });
 }
 
 exports.showLectureEdit = (req, res, next) => {
     const lectId = req.params.lectId;
-    LectureRepository.getLecturesById(lectId)
-        .then(lect => {
-            res.render('pages/lecture/form', {
-                lect: lect,
-                formMode: 'edit',
-                pageTitle: 'Edycja wykładu',
-                btnLabel: 'Edytuj',
-                formAction: '/lecture/edit',
-                navLocation: 'lect'
-            });
+    let allProfs, allDepts, allLects;
+
+    LectureRepository.getLectures()
+        .then(lects => {
+            allLects = lects;
+            return ProfessorRepository.getProfessors();
+        })
+        .then(profs => {
+            allProfs = profs;
+            return DepartmentRepository.getDepartments();
+        })
+        .then(depts => {
+            allDepts = depts;
+            return LectureRepository.getLecturesById(lectId);
+        }).then(lect => {
+        res.render('pages/lecture/form', {
+            lect: lect,
+            formMode: 'edit',
+            pageTitle: 'Edycja wykładu',
+            btnLabel: 'Edytuj',
+            formAction: '/lectures/edit',
+            navLocation: 'lect',
+            allProfs,
+            allDepts,
+            allLects
         });
+    });
 }
 
 exports.addLecture = (req, res, next) => {

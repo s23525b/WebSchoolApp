@@ -1,9 +1,9 @@
 function validationForm() {
-    const lectureNameInput = document.getElementById("lecture-name");
-    const professorInput = document.getElementById('professors');
-    const departmentInput = document.getElementById('departments');
-    const startTimeInput = document.getElementById('startDate');
-    const endTimeInput = document.getElementById('endDate');
+    const lectureNameInput = document.getElementById("name");
+    const professorInput = document.getElementById('prof_id');
+    const departmentInput = document.getElementById('dept_id');
+    const startTimeInput = document.getElementById('dateFrom');
+    const endTimeInput = document.getElementById('dateTo');
     const durationInput = document.getElementById('duration');
 
     const errorLectureName = document.getElementById('errorLectureName');
@@ -132,10 +132,8 @@ function checkNumberRange(value, min, max) {
     if (value < min) {
         return false;
     }
-    if (value > max) {
-        return false;
-    }
-    return true;
+    return value <= max;
+
 }
 
 function checkTextLengthRange(value, min, max) {
@@ -148,10 +146,9 @@ function checkTextLengthRange(value, min, max) {
     if (max && length > max)
         return false;
 
-    if (min && length < min)
-        return false;
+    return !(min && length < min);
 
-    return true;
+
 }
 
 function checkNumber(value) {
@@ -172,8 +169,8 @@ function checkDate(value) {
 }
 
 function checkDateIfAfter(value, compareTo) {
-/*    console.log(value);
-    console.log(compareTo);*/
+    console.log(value);
+    console.log(compareTo);
     if (!value) {
         return false;
     }

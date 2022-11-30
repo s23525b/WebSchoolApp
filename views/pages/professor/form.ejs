@@ -41,7 +41,7 @@
 
         <% if (formMode === 'showDetails') { %>
             <div class="form-buttons">
-                <a href="/professor/edit/<%= prof._id %> " class="form-button-edit">Edytuj</a>
+                <a href="/professors/edit/<%= prof._id %> " class="form-button-edit">Edytuj</a>
             </div>
         <% } %>
         <div class="form-buttons">
@@ -79,11 +79,11 @@
                     <td>
                         <ul class="list-actions">
                             <li>
-                                <a href="/lectures"
+                                <a href="/lectures/details/<%= l._id %>"
                                    class="list-actions-button-details">Szczegóły</a>
                             </li>
                             <li>
-                                <a href="/lectures" class="list-actions-button-delete"
+                                <a href="/lectures/delete/<%= l._id %>" class="list-actions-button-delete"
                                    onclick="return confirm('Are you sure?')">Usuń</a>
                             </li>
                         </ul>

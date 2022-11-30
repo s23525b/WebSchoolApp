@@ -6,33 +6,38 @@
 
     <form class="form" method="post" action="<%= formAction %>" novalidate onsubmit="return validationForm();">
 
-        <input type="hidden" name="_id" value="<%= lect._id %>">
+        <input type="hidden" name="_id" value="<%= lect._id %>"/>
 
 
-        <label for="lecture-name">Nazwa: <span class="symbol-required">*</span>
+        <label for="name">Nazwa: <span class="symbol-required">*</span>
             <span class="symbol-required"></span></label>
-        <input type="text" name="lecture-name" id="lecture-name" placeholder="np. Technologia Internetu"
+        <input type="text" name="name" id="name" placeholder="np. Technologia Internetu"
                value="<%= lect.name %>"
-                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
         <span id="errorLectureName" class="errors-text"></span>
 
-        <label for="professors">Profesor: <span class="symbol-required">*</span></label>
-        <select name="professors" id="professors" class="select-required" required
+
+        <label for="prof_id">Profesor: <span class="symbol-required">*</span></label>
+        <select name="prof_id" id="prof_id" class="select-required" required
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
-            <option value="" selected>--wybierz profesora--</option>
+            <% if (formMode !== 'edit' ){ %>
+                <option value="" selected="selected">--wybierz profesora--</option>
+            <% } %>
             <% for (let i = 0; i < allProfs.length; i++) { let prof = allProfs[i]; %>
             <option value="<%= prof._id %>"> <%= prof.firstName + ' ' + prof.lastName %>
-                <%= (lect._id && prof._id.toString() === lect.prof._id.toString()) ? 'selected' : '' %>
+                <%= (lect._id && prof._id.toString() === lect.professor._id.toString()) ? 'selected' : '' %>
             </option>
             <% } %>
         </select>
         <span id="errorProfessor" class="errors-text"></span>
 
-        <label for="departments">Katedra: <span class="symbol-required">*</span></label>
-        <select name="departments" id="departments" class="select-required" required
+        <label for="dept_id">Katedra: <span class="symbol-required">*</span></label>
+        <select name="dept_id" id="dept_id" class="select-required" required
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
-            <option value="" selected>--wybierz katedrę--</option>
-            <% for (let i = 0; i < allDepts.length; i++) { let dept = allDepts[i]; %>
+            <% if (formMode !== 'edit' ){ %>
+                <option value="" selected="selected">--wybierz katedrę--</option>
+            <% } %>
+            <% for (let i = 0; i < allDepts.length; i++) {let dept = allDepts[i]; %>
             <option value="<%= dept._id %>"> <%= dept.name %>
                 <%= (lect._id && dept._id.toString() === lect.department._id.toString()) ? 'selected' : '' %>
             </option>
@@ -40,19 +45,20 @@
         </select>
         <span id="errorDepartment" class="errors-text"></span>
 
-        <label for="startDate">Czas rozpoczęcia: <span class="symbol-required">*</span></label>
-        <input type="datetime-local" name="startDate" id="startDate" value="<%= lect.dateFrom %>"
-                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+
+        <label for="dateFrom">Czas rozpoczęcia: <span class="symbol-required">*</span></label>
+        <input type="datetime-local" name="dateFrom" id="dateFrom" value="<%= lect.dateFrom %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %> required>
         <span id="errorStartDate" class="errors-text"></span>
 
-        <label for="endDate">Czas zakończenia: </label>
-        <input type="datetime-local" name="endDate" id="endDate" value="<%= lect.dateTo %>"
-                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <label for="dateTo">Czas zakończenia: </label>
+        <input type="datetime-local" name="dateTo" id="dateTo" value="<%= lect.dateTo %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %> />
         <span id="errorEndDate" class="errors-text"></span>
 
         <label for="duration">Czas trwania: <span class="symbol-required">*</span></label>
         <input type="text" name="duration" id="duration" placeholder="np. 30" value="<%= lect.duration %>"
-                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
         <span id="errorDuration" class="errors-text"></span>
 
         <% if (formMode !== 'showDetails') { %>
@@ -61,10 +67,21 @@
         <% } %>
         <% if (formMode === 'showDetails') { %>
             <div class="form-buttons">
-                <a href="/lecture/edit/<%= lect._id %> " class="form-button-edit">Edytuj</a>
+                <a href="/lectures/edit/<%= lect._id %> " class="form-button-edit">Edytuj</a>
             </div>
         <% } %>
+
+        <div class="form-buttons">
+            <span class="errors-text" id="errorsSummary"></span>
+            <% if (formMode !== 'showDetails') { %>
+                <input class="form-button-submit" type="submit" value="<%= btnLabel %>"/>
+                <a class="form-button-cancel" href="/lectures">Anuluj</a>
+            <% } else { %>
+                <a class="form-button-cancel" href="/lectures">Powrót</a>
+            <% } %>
+        </div>
     </form>
+
     <% if (formMode === 'showDetails' || formMode === 'edit') { %>
 
 
@@ -81,38 +98,62 @@
             </tr>
             </thead>
             <tbody>
-            <% for (let p of lect.professors) { %>
-                <tr>
-                    <td><%= p.firstName %></td>
-                    <td><%= p.lastName %></td>
-                    <td><%= p.email %></td>
-                    <td><%= p.specialization %></td>
-                    <td>
-                        <ul class="list-actions">
-                            <li>
-                                <a href="/professors"
-                                   class="list-actions-button-details">Szczegóły</a>
-                            </li>
-                            <li>
-                                <a href="/lectures" class="list-actions-button-delete"
-                                   onclick="return confirm('Are you sure?')">Usuń</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            <% } %>
+            <tr>
+                <td><%= lect.professor.firstName %></td>
+                <td><%= lect.professor.lastName %></td>
+                <td><%= lect.professor.email %></td>
+                <td><%= lect.professor.specialization %></td>
+                <td>
+                    <ul class="list-actions">
+                        <li>
+                            <a href="/professors"
+                               class="list-actions-button-details">Szczegóły</a>
+                        </li>
+                        <li>
+                            <a href="/lectures" class="list-actions-button-delete"
+                               onclick="return confirm('Are you sure?')">Usuń</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+        <h2>Katedra</h2>
+
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Ilość Godzin</th>
+                <th>Opis</th>
+                <th>Opcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><%= lect.department.name %></td>
+                <td><%= lect.department.totalHours %></td>
+                <td><%= lect.department.description %></td>
+                <td>
+                    <ul class="list-actions">
+                        <li>
+                            <a href="/department"
+                               class="list-actions-button-details">Szczegóły</a>
+                        </li>
+                        <li>
+                            <a href="/department" class="list-actions-button-delete"
+                               onclick="return confirm('Are you sure?')">Usuń</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+
+
             </tbody>
         </table>
     <% } %>
-    <div class="form-buttons">
-        <span class="errors-text" id="errorsSummary"></span>
-        <% if (formMode !== 'showDetails') { %>
-            <input class="form-button-submit" type="submit" value="<%= btnLabel %>"/>
-            <a class="form-button-cancel" href="/lectures">Anuluj</a>
-        <% } else { %>
-            <a class="form-button-cancel" href="/lectures">Powrót</a>
-        <% } %>
-    </div>
 
 </main>
 <%- include('../../fragments/footer.ejs') %>
