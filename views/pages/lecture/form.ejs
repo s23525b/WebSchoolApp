@@ -47,12 +47,18 @@
 
 
         <label for="dateFrom">Czas rozpoczęcia: <span class="symbol-required">*</span></label>
-        <input type="datetime-local" name="dateFrom" id="dateFrom" value="<%= lect.dateFrom %>"
+        <input type="datetime-local" name="dateFrom" id="dateFrom"
+        <% if (formMode !== 'createNew' ){ %>
+               value="<%= lect.dateFrom.toISOString().split('T')[0] + ' ' + lect.dateFrom.toISOString().split('T')[1].substring(0, 8) %>"
+                <% } %>
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %> required>
         <span id="errorStartDate" class="errors-text"></span>
 
         <label for="dateTo">Czas zakończenia: </label>
-        <input type="datetime-local" name="dateTo" id="dateTo" value="<%= lect.dateTo %>"
+        <input type="datetime-local" name="dateTo" id="dateTo"
+        <% if (formMode !== 'createNew' ){ %>
+               value="<%= lect.dateTo.toISOString().split('T')[0] + ' ' + lect.dateTo.toISOString().split('T')[1].substring(0, 8) %>"
+                <% } %>
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %> />
         <span id="errorEndDate" class="errors-text"></span>
 
