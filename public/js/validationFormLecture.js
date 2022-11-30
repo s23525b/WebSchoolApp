@@ -72,7 +72,7 @@ function validationForm() {
         errorStartTime.innerText = "Pole jest wymagane";
     }
 
-    if (checkRequired(startTimeInput.value) && !checkDateIfAfter(startTimeInput.value, endTimeInput.value)) {
+    if (!checkRequired(startTimeInput.value) && !checkDateIfAfter(startTimeInput.value, endTimeInput.value)) {
         valid = false;
         endTimeInput.classList.add("error-input");
         errorEndTime.innerText = "Data zakończenia musi być po dacie rozpoczecia";
@@ -169,8 +169,8 @@ function checkDate(value) {
 }
 
 function checkDateIfAfter(value, compareTo) {
-    console.log(value);
-    console.log(compareTo);
+   /* console.log(value);
+    console.log(compareTo);*/
     if (!value) {
         return false;
     }

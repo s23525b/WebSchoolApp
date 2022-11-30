@@ -24,8 +24,8 @@
                 <option value="" selected="selected">--wybierz profesora--</option>
             <% } %>
             <% for (let i = 0; i < allProfs.length; i++) { let prof = allProfs[i]; %>
-            <option value="<%= prof._id %>"> <%= prof.firstName + ' ' + prof.lastName %>
-                <%= (lect._id && prof._id.toString() === lect.professor._id.toString()) ? 'selected' : '' %>
+            <option value="<%= prof._id %>" label="<%= prof.firstName + ' ' + prof.lastName %>"
+            <%= (lect._id && prof._id.toString() === lect.professor._id.toString()) ? 'selected' : '' %>
             </option>
             <% } %>
         </select>
@@ -38,8 +38,8 @@
                 <option value="" selected="selected">--wybierz katedrę--</option>
             <% } %>
             <% for (let i = 0; i < allDepts.length; i++) {let dept = allDepts[i]; %>
-            <option value="<%= dept._id %>"> <%= dept.name %>
-                <%= (lect._id && dept._id.toString() === lect.department._id.toString()) ? 'selected' : '' %>
+            <option value="<%= dept._id %>" label="<%= dept.name %>"
+            <%= (lect._id && dept._id.toString() === lect.department._id.toString()) ? 'selected' : '' %>
             </option>
             <% } %>
         </select>
