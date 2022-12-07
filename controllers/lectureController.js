@@ -29,7 +29,8 @@ exports.showAddLectureForm = (req, res, next) => {
                 pageTitle: 'Nowy wykład',
                 btnLabel: 'Dodaj',
                 formAction: '/lectures/add',
-                navLocation: 'lecture'
+                navLocation: 'lecture',
+                validationErrors: []
             });
         });
 }
@@ -59,7 +60,8 @@ exports.showLectureDetails = (req, res, next) => {
             navLocation: 'lect',
             allProfs,
             allDepts,
-            allLects
+            allLects,
+            validationErrors: []
         });
     });
 }
@@ -90,27 +92,81 @@ exports.showLectureEdit = (req, res, next) => {
             navLocation: 'lect',
             allProfs,
             allDepts,
-            allLects
+            allLects,
+            validationErrors: []
         });
     });
 }
 
 exports.addLecture = (req, res, next) => {
     const lectData = {...req.body};
-    LectureRepository.createLecture(lectData)
-        .then(result => {
-            res.redirect('/lectures');
-        });
-}
+    let allProfs, allDepts;
+    ProfessorRepository.getProfessors()
+        .then(profs => {
+            allProfs = profs;
+            return DepartmentRepository.getDepartments();
+        }).then(depts => {
+        allDepts = depts;
+        return LectureRepository.createLecture(lectData)
+            .then(result => {
+                res.redirect('/lectures');
+            }).catch(err => {
+                err.errors.forEach(e => {
+                    if (e.path.includes('name') && e.type === 'unique violation') {
+                        e.message = 'Podana nazwa wykładu jest już używana';
+                    }
+                })
+                res.render('pages/lecture/form', {
+                    lect: lectData,
+                    pageTitle: 'Dodawanie wykładu',
+                    formMode: 'createNew',
+                    btnLabel: 'Dodaj',
+                    formAction: '/lectures/add',
+                    navLocation: 'lect',
+                    buttonCSS: 'submit',
+                    allProfs: allProfs,
+                    allDepts: allDepts,
+                    validationErrors: err.errors
+                });
+            });
+    });
+};
+
 exports.updateLecture = (req, res, next) => {
     const lectId = req.body._id;
     const lectData = {...req.body};
-    LectureRepository.updateLecture(lectId, lectData)
-        .then(result => {
-            res.redirect('/lectures');
-        });
-
+    let allDepts, allProfs;
+    ProfessorRepository.getProfessors()
+        .then(profs => {
+            allProfs = profs;
+            return DepartmentRepository.getDepartments();
+        }).then(depts => {
+        allDepts = depts;
+        return LectureRepository.updateLecture(lectId, lectData)
+            .then(result => {
+                res.redirect('/lectures');
+            }).catch(err => {
+                err.errors.forEach(e => {
+                    if (e.path.includes('name') && e.type === 'unique violation') {
+                        e.message = 'Podana nazwa wykładu jest już używana';
+                    }
+                })
+                res.render('pages/lecture/form', {
+                    lect: lectData,
+                    pageTitle: 'Edycja wykładu',
+                    formMode: 'edit',
+                    btnLabel: 'Dodaj',
+                    formAction: '/lectures/edit',
+                    navLocation: 'lect',
+                    buttonCSS: 'edit',
+                    allProfs: allProfs,
+                    allDepts: allDepts,
+                    validationErrors: err.errors
+                });
+            });
+    })
 };
+
 exports.deleteLecture = (req, res, next) => {
     const lectId = req.params.lectId;
     LectureRepository.deleteLecture(lectId)

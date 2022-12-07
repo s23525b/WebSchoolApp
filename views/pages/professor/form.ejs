@@ -1,53 +1,61 @@
 <%- include('../../fragments/header.ejs') %>
 <main>
     <script type="application/javascript" src="/js/validationFormProf.js"></script>
+    <script type="application/javascript" src="/js/validationFormCommon.js"></script>
     <h2><%= pageTitle %></h2>
-    <form class="form" method="post" action="<%= formAction %>" novalidate onsubmit="return validationForm();">
+    <form class="form" method="post" action="<%= formAction %>" novalidate>
 
         <input type="hidden" name="_id" value="<%= prof._id %>">
 
 
         <label for="firstName">Imię: <span class="symbol-required">*</span></label>
-        <input type="text" name="firstName" id="firstName" placeholder="np. Jan" value="<%= prof.firstName %>"
+        <input class="<%= validationErrors.find(e => e.path.includes('firstName')) ? 'error-input' : '' %>" type="text"
+               name="firstName" id="firstName" placeholder="np. Jan" value="<%= prof.firstName %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
-        <span id="errorFirstName" class="errors-text"></span>
+        <span id="errorFirstName" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('firstName'))){ %>
+                <%= validationErrors.find(e => e.path.includes('firstName')).message %>
+            <% } %>
+        </span>
 
         <label for="lastName">Nazwisko: <span class="symbol-required">*</span></label>
-        <input type="text" name="lastName" id="lastName" placeholder="np. Kowalski" value="<%= prof.lastName %>"
+        <input class="<%= validationErrors.find(e => e.path.includes('lastName')) ? 'error-input' : '' %>" type="text"
+               name="lastName" id="lastName" placeholder="np. Kowalski" value="<%= prof.lastName %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
-        <span id="errorLastName" class="errors-text"></span>
+        <span id="errorLastName" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('lastName'))){ %>
+                <%= validationErrors.find(e => e.path.includes('lastName')).message %>
+            <% } %>
+        </span>
 
-        <label for="email">E-mail: <span class="symbol-required">*</span>
-            <span class="symbol-required"></span></label>
-        <input type="text" name="email" id="email" placeholder="imie.nazwisko@utoronto.com" value="<%= prof.email %>"
+        <label for="email">E-mail: <span class="symbol-required">*</span></label>
+        <input class="<%= validationErrors.find(e => e.path.includes('email')) ? 'error-input' : '' %>" type="text"
+               name="email" id="email" placeholder="imie.nazwisko@utoronto.com"
+               value="<%= prof.email %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
-        <span id="errorEmail" class="errors-text"></span>
+        <span id="errorEmail" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('email'))){ %>
+                <%= validationErrors.find(e => e.path.includes('email')).message %>
+            <% } %>
+        </span>
 
-        <!--<label>Specjalizacja:</label>
-        <div class="container">
-            <input type="checkbox" id="specialization1" name="specialization1" value="math">
-            <label for="specialization1">Matematyka</label><br/>
-            <input type="checkbox" id="specialization2" name="specialization2" value="physics">
-            <label for="specialization2">Fizyka</label><br/>
-            <input type="checkbox" id="specialization3" name="specialization3" value="informatics">
-            <label for="specialization3">Informatyka</label><br/>
-        </div>
-        <span id="errorSpecialization" class="errors-text"></span>-->
+        <label for="specialization">Specjalizacja:</label>
+        <input type="text" name="specialization" id="specialization" placeholder="np. Fizyka kwantowa"
+               value="<% prof.specialization %>"
+                <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
+        <span id="errorSpecialization" class="errors-text"></span>
 
-        <% if (formMode !== 'showDetails') { %>
-            <div class="form-buttons">
-            </div>
-        <% } %>
-
-        <% if (formMode === 'showDetails') { %>
-            <div class="form-buttons">
-                <a href="/professors/edit/<%= prof._id %> " class="form-button-edit">Edytuj</a>
-            </div>
-        <% } %>
         <div class="form-buttons">
+            <% if (formMode !== 'showDetails'){ %>
+            <% } %>
+
+            <% if (formMode === 'showDetails') { %>
+                <a href="/professors/edit/<%= prof._id %> " class="form-button-<%= buttonCSS %>">Edytuj</a>
+            <% } %>
+
             <span class="errors-text" id="errorsSummary"></span>
             <% if (formMode !== 'showDetails') { %>
-                <input class="form-button-submit" type="submit" value="<%= btnLabel %>"/>
+                <input class="form-button-<%= buttonCSS %>" type="submit" value="<%= btnLabel %>"/>
                 <a class="form-button-cancel" href="/professors">Anuluj</a>
             <% } else { %>
                 <a class="form-button-cancel" href="/professors">Powrót</a>
@@ -73,9 +81,9 @@
             <% for (let l of prof.lectures) { %>
                 <tr>
                     <td><%= l.name %></td>
-                    <td><%= l.dateFrom %></td>
-                    <td><%= l.dateTo %></td>
-                    <td><%= l.duration %></td>
+                    <td><%= l.dateFrom.toISOString().split('T')[0] + ' od ' + l.dateFrom.toISOString().split('T')[1].substring(0, 8) %></td>
+                    <td><%= l.dateTo.toISOString().split('T')[0] + ' do ' + l.dateTo.toISOString().split('T')[1].substring(0, 8) %></td>
+                    <td><%= Math.round((((l.dateTo - l.dateFrom) / 1000) / 60)) + ' minut' %></td>
                     <td>
                         <ul class="list-actions">
                             <li>

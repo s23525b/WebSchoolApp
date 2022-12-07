@@ -13,9 +13,9 @@
         <% for (let lect of lects) { %>
             <tr>
                 <td><%= lect.name %></td>
-                <td><%= lect.dateFrom.toISOString().split('T')[0] + ' o ' + lect.dateFrom.toISOString().split('T')[1].substring(0, 8) %></td>
+                <td><%= lect.dateFrom.toISOString().split('T')[0] + ' o ' + lect.dateFrom.toISOString().split('T')[1].substring(0, 8); %></td>
                 <td><%= lect.dateTo.toISOString().split('T')[0] + ' o ' + lect.dateTo.toISOString().split('T')[1].substring(0, 8) %></td>
-                <td><%= lect.duration %></td>
+                <td><%= Math.round((((lect.dateTo-lect.dateFrom)/1000) / 60)) + ' minut'%></td>
                 <td>
                     <ul class="list-actions">
                         <li><a href="/lectures/details/<%= lect._id %>" class="list-actions-button-details">

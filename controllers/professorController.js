@@ -17,7 +17,9 @@ exports.showAddProfessorForm = (req, res, next) => {
         formMode: 'createNew',
         btnLabel: 'Dodaj',
         formAction: '/professors/add',
-        navLocation: 'prof'
+        navLocation: 'prof',
+        buttonCSS: 'submit',
+        validationErrors: []
     });
 }
 
@@ -30,7 +32,9 @@ exports.showProfessorDetails = (req, res, next) => {
                 formMode: 'showDetails',
                 pageTitle: 'Szczegóły profesora',
                 formAction: '',
-                navLocation: 'prof'
+                navLocation: 'prof',
+                buttonCSS: 'edit',
+                validationErrors: []
             });
         });
 }
@@ -45,7 +49,9 @@ exports.showProfessorEdit = (req, res, next) => {
                 pageTitle: 'Edycja profesora',
                 btnLabel: 'Edytuj',
                 formAction: '/professors/edit',
-                navLocation: 'prof'
+                navLocation: 'prof',
+                buttonCSS: 'edit',
+                validationErrors: []
             });
         });
 }
@@ -55,7 +61,23 @@ exports.addProfessor = (req, res, next) => {
     ProfessorRepository.createProfessor(profData)
         .then(result => {
             res.redirect('/professors');
+        }).catch(err => {
+        err.errors.forEach(e => {
+            if (e.path.includes('email') && e.type === 'unique violation') {
+                e.message = 'Podany adres email jest już używany';
+            }
+        })
+        res.render('pages/professor/form', {
+            prof: profData,
+            pageTitle: 'Dodawanie profesora',
+            formMode: 'createNew',
+            btnLabel: 'Dodaj',
+            formAction: '/professors/add',
+            navLocation: 'prof',
+            buttonCSS: 'submit',
+            validationErrors: err.errors
         });
+    });
 };
 
 exports.updateProfessor = (req, res, next) => {
@@ -64,8 +86,23 @@ exports.updateProfessor = (req, res, next) => {
     ProfessorRepository.updateProfessor(profId, profData)
         .then(result => {
             res.redirect('/professors');
+        }).catch(err => {
+        err.errors.forEach(e => {
+            if (e.path.includes('email') && e.type === 'unique violation') {
+                e.message = 'Podany adres email jest już używany';
+            }
+        })
+        res.render('pages/professor/form', {
+            prof: profData,
+            formMode: 'edit',
+            pageTitle: 'Edycja profesora',
+            btnLabel: 'Edytuj',
+            formAction: '/professors/edit',
+            navLocation: 'prof',
+            buttonCSS: 'edit',
+            validationErrors: err.errors
         });
-
+    });
 };
 
 exports.deleteProfessor = (req, res, next) => {

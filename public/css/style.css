@@ -105,6 +105,7 @@ main h2 {
     border-collapse: collapse;
     color: #023047;
     width: 100%;
+    line-height: 3rem;
 }
 
 .table-list, .table-list th, .table-list td {
@@ -131,7 +132,10 @@ main h2 {
 }
 
 .dept-description {
-    max-width: 150px;
+    max-width: 250px;
+}
+.dept-hours {
+    max-width: 50px;
 }
 
 .list-actions {
@@ -143,7 +147,7 @@ main h2 {
 
 div.scrollable {
     width: 100%;
-    height: 100%;
+    max-height: 150px;
     margin: 0;
     padding: 0;
     overflow: auto;
@@ -215,6 +219,7 @@ button, input, select, textarea {
     margin: 4px;
 }
 
+
 textarea {
     overflow: auto;
 }
@@ -269,7 +274,7 @@ input:invalid {
 
 }
 
-.button-add, .form-button-submit, .form-button-cancel {
+.button-add, .form-button-submit, .form-button-cancel, .form-button-edit {
     padding: 0.7rem 1rem;
 }
 
@@ -303,7 +308,7 @@ input:invalid {
     margin-left: 1rem;
 }
 
-.form-button-submit {
+.form-button-submit, .form-button-edit {
     margin-bottom: 0.4rem;
     margin-left: 1rem;
 }

@@ -12,15 +12,18 @@
         <% for (let dept of depts) { %>
             <tr>
                 <td><%= dept.name %></td>
-                <td><%= dept.totalHours %></td>
-                <td><%= dept.description %></td>
-
+                <td class="dept-hours"><%= dept.totalHours + ' godzin wykładowych' %></td>
+                <td class="dept-description">
+                    <div class="scrollable">
+                    <%= dept.description %></td>
+                </div>
                 <td>
                     <ul class="list-actions">
                         <li><a href="/departments/details/<%= dept._id %>" class="list-actions-button-details">
                                 Szczegóły</a>
                         </li>
-                        <li><a href="/departments/edit/<%= dept._id %>" class="list-actions-button-edit"> Edytuj</a></li>
+                        <li><a href="/departments/edit/<%= dept._id %>" class="list-actions-button-edit"> Edytuj</a>
+                        </li>
                         <li><a href="/departments/delete/<%= dept._id %>" class="list-actions-button-delete"> Usuń</a>
                         </li>
                     </ul>
@@ -30,6 +33,6 @@
         </tbody>
     </table>
     <p><a href="/departments/add" class="list-actions-button-add">Dodaj nową
-        katedrę</a></p>
+            katedrę</a></p>
 </main>
 <%- include('../../fragments/footer.ejs') %>

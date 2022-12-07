@@ -17,7 +17,8 @@ exports.showAddDepartmentForm = (req, res, next) => {
         formMode: 'createNew',
         btnLabel: 'Dodaj',
         formAction: '/departments/add',
-        navLocation: 'dept'
+        navLocation: 'dept',
+        validationErrors: []
     });
 }
 
@@ -30,7 +31,8 @@ exports.showDepartmentDetails = (req, res, next) => {
                 formMode: 'showDetails',
                 pageTitle: 'Szczegóły katedry',
                 formAction: '',
-                navLocation: 'dept'
+                navLocation: 'dept',
+                validationErrors: []
             });
         });
 }
@@ -45,7 +47,8 @@ exports.showDepartmentEdit = (req, res, next) => {
                 pageTitle: 'Edycja katedry',
                 btnLabel: 'Edytuj',
                 formAction: '/departments/edit',
-                navLocation: 'dept'
+                navLocation: 'dept',
+                validationErrors: []
             });
         });
 }
@@ -55,7 +58,23 @@ exports.addDepartment = (req, res, next) => {
     DepartmentRepository.createDepartment(deptData)
         .then(result => {
             res.redirect('/departments');
+        }).catch(err => {
+        err.errors.forEach(e => {
+            if (e.path.includes('name') && e.type === 'unique violation') {
+                e.message = 'Podana nazwa katedry jest już używana';
+            }
+        })
+        res.render('pages/department/form', {
+            dept: deptData,
+            pageTitle: 'Dodawanie katedry',
+            formMode: 'createNew',
+            btnLabel: 'Dodaj',
+            formAction: '/departments/add',
+            navLocation: 'dept',
+            buttonCSS: 'submit',
+            validationErrors: err.errors
         });
+    });
 };
 
 exports.updateDepartment = (req, res, next) => {
@@ -64,8 +83,23 @@ exports.updateDepartment = (req, res, next) => {
     DepartmentRepository.updateDepartment(deptId, deptData)
         .then(result => {
             res.redirect('/departments');
+        }).catch(err => {
+        err.errors.forEach(e => {
+            if (e.path.includes('name') && e.type === 'unique violation') {
+                e.message = 'Podana nazwa katedry jest już używana';
+            }
+        })
+        res.render('pages/department/form', {
+            dept: deptData,
+            formMode: 'edit',
+            pageTitle: 'Edycja katedry',
+            btnLabel: 'Edytuj',
+            formAction: '/departments/edit',
+            navLocation: 'dept',
+            buttonCSS: 'edit',
+            validationErrors: err.errors
         });
-
+    });
 };
 
 exports.deleteDepartment = (req, res, next) => {

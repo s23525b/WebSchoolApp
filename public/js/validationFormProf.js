@@ -3,17 +3,19 @@ function validationForm() {
     const firstNameInput = document.getElementById('firstName');
     const lastNameInput = document.getElementById('lastName');
     const emailInput = document.getElementById('email');
+    const specializationInput = document.getElementById('specialization');
 
     const errorFirstName = document.getElementById('errorFirstName');
     const errorLastName = document.getElementById('errorLastName');
     const errorEmail = document.getElementById('errorEmail');
+    const errorSpecialization = document.getElementById('errorSpecialization');
 
 
     const errorsSummary = document.getElementById('errorsSummary');
 
 
-    resetErrors([firstNameInput, lastNameInput, emailInput],
-        [errorFirstName, errorLastName, errorEmail], errorsSummary);
+    resetErrors([firstNameInput, lastNameInput, emailInput, specializationInput],
+        [errorFirstName, errorLastName, errorEmail, errorSpecialization], errorsSummary);
 
     let valid = true;
 
@@ -24,17 +26,17 @@ function validationForm() {
     } else if (!checkTextLengthRange(firstNameInput.value, 3, 30)) {
         valid = false;
         firstNameInput.classList.add("error-input");
-        errorFirstName.innerText = "Pole powinno zawierać od 2 do 30 znaków";
+        errorFirstName.innerText = "Pole powinno zawierać od 3 do 30 znaków";
     }
 
     if (!checkRequired(lastNameInput.value)) {
         valid = false;
         lastNameInput.classList.add("error-input");
         errorLastName.innerText = "Pole jest wymagane";
-    } else if (!checkTextLengthRange(lastNameInput.value, 3, 40)) {
+    } else if (!checkTextLengthRange(lastNameInput.value, 3, 50)) {
         valid = false;
         lastNameInput.classList.add("error-input");
-        errorLastName.innerText = "Pole powinno zawierać od 3 do 40 znaków";
+        errorLastName.innerText = "Pole powinno zawierać od 3 do 50 znaków";
     }
 
     if (!checkRequired(emailInput.value)) {
@@ -50,52 +52,8 @@ function validationForm() {
     if (!valid) {
         errorsSummary.innerText = "Formularz zawiera błędy";
     }
-
-
-    console.log(valid);
-
     return valid;
 
-}
-
-
-function resetErrors(inputs, errorTexts, errorInfo) {
-    for (let i = 0; i < inputs.length; i++)
-        inputs[i].classList.remove("error_input");
-
-    for (let i = 0; i < errorTexts.length; i++)
-        errorTexts[i].innerText = "";
-
-    errorInfo.innerText = "";
-}
-
-function checkRequired(value) {
-    if (!value)
-        return false;
-
-    value = value.toString().trim();
-
-    if (value === "")
-        return false;
-
-    return true;
-}
-
-
-function checkTextLengthRange(value, min, max) {
-    if (!value)
-        return false;
-
-    value = value.toString().trim();
-    const length = value.length;
-
-    if (max && length > max)
-        return false;
-
-    if (min && length < min)
-        return false;
-
-    return true;
 }
 
 function checkEmail(value) {

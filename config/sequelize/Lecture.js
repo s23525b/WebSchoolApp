@@ -9,28 +9,59 @@ const Lecture = sequelize.define('Lecture', {
         primaryKey: true
     },
     name: {
-      type: Sequelize.STRING,
-      allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            notEmpty: {
+                msg: "Pole jest wymagane"
+            },
+            len: {
+                args: [2, 30],
+                msg: "Pole powinno zawierać od 2 do 30 znaków"
+            },
+        }
     },
     dateFrom: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Pole jest wymagane"
+            }
+        }
     },
     dateTo: {
         type: Sequelize.DATE,
-        allowNull: true
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Pole jest wymagane"
+            }
+        }
     },
+
     duration: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     prof_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Pole jest wymagane"
+            }
+        }
     },
     dept_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Pole jest wymagane"
+            }
+        }
     }
 });
 

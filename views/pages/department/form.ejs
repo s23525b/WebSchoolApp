@@ -1,25 +1,40 @@
 <%- include('../../fragments/header.ejs') %>
+<script type="application/javascript" src="/js/validationFormDepartment.js"></script>
+<script type="application/javascript" src="/js/validationFormCommon.js"></script>
 <main>
-    <script type="application/javascript" src="/js/validationFormDepartment.js"></script>
     <h2><%= pageTitle %></h2>
-    <form class="form" method="post" action="<%= formAction %>" novalidate onsubmit="return validationForm();">
+    <form class="form" method="post" action="<%= formAction %>" novalidate>
 
         <input type="hidden" name="_id" value="<%= dept._id %>">
 
-        <label for="dept-name">Nazwa: <span class="symbol-required">*</span></label>
-        <input type="text" name="name" id="dept-name" placeholder="np. Informatyka" value="<%= dept.name %>"
+        <label for="name">Nazwa: <span class="symbol-required">*</span></label>
+        <input class="<%= validationErrors.find(e => e.path.includes('name')) ? 'error-input' : '' %>" type="text"
+               name="name" id="name" placeholder="np. Informatyka" value="<%= dept.name %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
-        <span id="errorDeptName" class="errors-text"></span>
+        <span id="errorDeptName" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('name'))){ %>
+                <%= validationErrors.find(e => e.path.includes('name')).message %>
+            <% } %>
+        </span>
 
         <label for="totalHours">Ilość godzin wykładowych: <span class="symbol-required">*</span></label>
-        <input type="text" name="totalHours" id="totalHours" placeholder="np. 300" value="<%= dept.totalHours %>"
+        <input class="<%= validationErrors.find(e => e.path.includes('totalHours')) ? 'error-input' : '' %>" type="text"
+               name="totalHours" id="totalHours" placeholder="np. 300" value="<%= dept.totalHours %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
-        <span id="errorTotalHours" class="errors-text"></span>
+        <span id="errorTotalHours" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('totalHours'))){ %>
+                <%= validationErrors.find(e => e.path.includes('totalHours')).message %>
+            <% } %>
+        </span>
 
         <label for="description">Opis: </label>
-        <textarea class="desc-textarea" name="description" id="description"
+        <textarea class="<%= validationErrors.find(e => e.path.includes('description')) ? 'error-input' : '' %>" class="desc-textarea" name="description" id="description"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/><%= dept.description %></textarea>
-        <span id="errorDescription" class="errors-text"></span>
+        <span id="errorDescription" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('description'))){ %>
+                <%= validationErrors.find(e => e.path.includes('description')).message %>
+            <% } %>
+        </span>
 
         <% if (formMode !== 'showDetails') { %>
             <div class="form-buttons">
@@ -28,7 +43,7 @@
 
         <% if (formMode === 'showDetails') { %>
             <div class="form-buttons">
-                <a href="/department/edit/<%= dept._id %> " class="form-button-edit">Edytuj</a>
+                <a href="/departments/edit/<%= dept._id %> " class="form-button-edit">Edytuj</a>
             </div>
         <% } %>
         <div class="form-buttons">
@@ -60,9 +75,9 @@
             <% for (let l of dept.lectures) { %>
                 <tr>
                     <td><%= l.name %></td>
-                    <td><%= l.dateFrom %></td>
-                    <td><%= l.dateTo %></td>
-                    <td><%= l.duration %></td>
+                    <td><%= l.dateFrom.toISOString().split('T')[0] + ' od ' + l.dateFrom.toISOString().split('T')[1].substring(0, 8) %></td>
+                    <td><%= l.dateTo.toISOString().split('T')[0] + ' do ' + l.dateTo.toISOString().split('T')[1].substring(0, 8) %></td>
+                    <td><%= Math.round((((l.dateTo - l.dateFrom) / 1000) / 60)) + ' minut' %></td>
                     <td>
                         <ul class="list-actions">
                             <li>

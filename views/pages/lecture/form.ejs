@@ -1,24 +1,31 @@
 <%- include('../../fragments/header.ejs') %>
 <script type="application/javascript" src="/js/validationFormLecture.js"></script>
+<script type="application/javascript" src="/js/validationFormCommon.js"></script>
 
 <main>
     <h2><%= pageTitle %></h2>
 
-    <form class="form" method="post" action="<%= formAction %>" novalidate onsubmit="return validationForm();">
+    <form class="form" method="post" action="<%= formAction %>" novalidate>
 
         <input type="hidden" name="_id" value="<%= lect._id %>"/>
 
 
         <label for="name">Nazwa: <span class="symbol-required">*</span>
             <span class="symbol-required"></span></label>
-        <input type="text" name="name" id="name" placeholder="np. Technologia Internetu"
+        <input class="<%= validationErrors.find(e => e.path.includes('name')) ? 'error-input' : '' %>" type="text"
+               name="name" id="name" placeholder="np. Technologia Internetu"
                value="<%= lect.name %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
-        <span id="errorLectureName" class="errors-text"></span>
+        <span id="errorLectureName" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('name'))){ %>
+                <%= validationErrors.find(e => e.path.includes('name')).message %>
+            <% } %>
+        </span>
 
 
         <label for="prof_id">Profesor: <span class="symbol-required">*</span></label>
-        <select name="prof_id" id="prof_id" class="select-required" required
+        <select class="<%= validationErrors.find(e => e.path.includes('prof_id')) ? 'error-input' : '' %>"
+                name="prof_id" id="prof_id" class="select-required" required
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
             <% if (formMode !== 'edit' ){ %>
                 <option value="" selected="selected">--wybierz profesora--</option>
@@ -29,10 +36,15 @@
             </option>
             <% } %>
         </select>
-        <span id="errorProfessor" class="errors-text"></span>
+        <span id="errorProfessor" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('prof_id'))){ %>
+                <%= validationErrors.find(e => e.path.includes('prof_id')).message %>
+            <% } %>
+        </span>
 
         <label for="dept_id">Katedra: <span class="symbol-required">*</span></label>
-        <select name="dept_id" id="dept_id" class="select-required" required
+        <select class="<%= validationErrors.find(e => e.path.includes('dept_id')) ? 'error-input' : '' %>"
+                name="dept_id" id="dept_id" class="select-required" required
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>>
             <% if (formMode !== 'edit' ){ %>
                 <option value="" selected="selected">--wybierz katedrę--</option>
@@ -43,29 +55,46 @@
             </option>
             <% } %>
         </select>
-        <span id="errorDepartment" class="errors-text"></span>
+        <span id="errorDepartment" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('dept_id'))){ %>
+                <%= validationErrors.find(e => e.path.includes('dept_id')).message %>
+            <% } %>
+        </span>
 
 
         <label for="dateFrom">Czas rozpoczęcia: <span class="symbol-required">*</span></label>
-        <input type="datetime-local" name="dateFrom" id="dateFrom"
+        <input class="<%= validationErrors.find(e => e.path.includes('dateFrom')) ? 'error-input' : '' %>"
+               type="datetime-local" name="dateFrom" id="dateFrom"
         <% if (formMode !== 'createNew' ){ %>
                value="<%= lect.dateFrom.toISOString().split('T')[0] + ' ' + lect.dateFrom.toISOString().split('T')[1].substring(0, 8) %>"
                 <% } %>
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %> required>
-        <span id="errorStartDate" class="errors-text"></span>
+        <span id="errorStartDate" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('dateFrom'))){ %>
+                <%= validationErrors.find(e => e.path.includes('dateFrom')).message %>
+            <% } %>
+        </span>
 
         <label for="dateTo">Czas zakończenia: </label>
-        <input type="datetime-local" name="dateTo" id="dateTo"
+        <input class="<%= validationErrors.find(e => e.path.includes('dateTo')) ? 'error-input' : '' %>"
+               type="datetime-local" name="dateTo" id="dateTo"
         <% if (formMode !== 'createNew' ){ %>
-               value="<%= lect.dateTo.toISOString().split('T')[0] + ' ' + lect.dateTo.toISOString().split('T')[1].substring(0, 8) %>"
+               value="<%= lect.dateTo.toISOString().split('T')[0] + ' ' + lect.dateTo.toISOString().split('T')[1].substring(0, 8); %>"
                 <% } %>
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %> />
-        <span id="errorEndDate" class="errors-text"></span>
+        <span id="errorEndDate" class="errors-text">
+            <% if(validationErrors.find(e => e.path.includes('dateTo'))){ %>
+                <%= validationErrors.find(e => e.path.includes('dateTo')).message %>
+            <% } %>
+        </span>
 
-        <label for="duration">Czas trwania: <span class="symbol-required">*</span></label>
-        <input type="text" name="duration" id="duration" placeholder="np. 30" value="<%= lect.duration %>"
-                <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
-        <span id="errorDuration" class="errors-text"></span>
+        <% if (formMode === 'showDetails'){ %>
+            <label for="duration">Czas trwania: <span class="symbol-required">*</span></label>
+            <input  type="text" name="duration" id="duration" placeholder="np. 30"
+                   value="<%= Math.round((((lect.dateTo - lect.dateFrom) / 1000) / 60)) + ' minut' %>"
+                    <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
+            <span id="errorDuration" class="errors-text"></span>
+        <% } %>
 
         <% if (formMode !== 'showDetails') { %>
             <div class="form-buttons">
@@ -112,11 +141,11 @@
                 <td>
                     <ul class="list-actions">
                         <li>
-                            <a href="/professors"
+                            <a href="/professors/details/<%= lect.professor._id %>"
                                class="list-actions-button-details">Szczegóły</a>
                         </li>
                         <li>
-                            <a href="/lectures" class="list-actions-button-delete"
+                            <a href="/professors/delete/<%= lect.professor._id %>" class="list-actions-button-delete"
                                onclick="return confirm('Are you sure?')">Usuń</a>
                         </li>
                     </ul>
@@ -140,16 +169,18 @@
             <tbody>
             <tr>
                 <td><%= lect.department.name %></td>
-                <td><%= lect.department.totalHours %></td>
-                <td><%= lect.department.description %></td>
+                <td class="dept-hours"><%= lect.department.totalHours + ' godzin wykładowych' %></td>
+                <td class="dept-description">
+                    <div class="scrollable"> <%= lect.department.description %></div>
+                </td>
                 <td>
                     <ul class="list-actions">
                         <li>
-                            <a href="/department"
+                            <a href="/departments/details/<%= lect.department._id %>"
                                class="list-actions-button-details">Szczegóły</a>
                         </li>
                         <li>
-                            <a href="/department" class="list-actions-button-delete"
+                            <a href="/departments/delete/<%= lect.department._id %>" class="list-actions-button-delete"
                                onclick="return confirm('Are you sure?')">Usuń</a>
                         </li>
                     </ul>
