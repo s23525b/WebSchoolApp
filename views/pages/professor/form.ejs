@@ -41,7 +41,7 @@
 
         <label for="specialization">Specjalizacja:</label>
         <input type="text" name="specialization" id="specialization" placeholder="np. Fizyka kwantowa"
-               value="<% prof.specialization %>"
+               value="<%= prof.specialization %>"
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
         <span id="errorSpecialization" class="errors-text"></span>
 
