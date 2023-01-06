@@ -40,3 +40,9 @@ exports.deleteProfessor = (profId) => {
         where: {_id: profId}
     });
 };
+
+exports.findByEmail = (email) => {
+    return Professor.findOne({
+        where: {email: email}
+    });
+};

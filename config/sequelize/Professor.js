@@ -54,6 +54,10 @@ const Professor = sequelize.define('Professor', {
     specialization: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 

@@ -41,7 +41,7 @@ exports.createLecture = (data) => {
         name: data.name,
         dateFrom: data.dateFrom,
         dateTo: data.dateTo,
-        duration: data.duration
+        duration: Math.round((((data.dateTo - data.dateFrom) / 1000) / 60))
     });
 };
 

@@ -134,6 +134,7 @@ main h2 {
 .dept-description {
     max-width: 250px;
 }
+
 .dept-hours {
     max-width: 50px;
 }
@@ -219,6 +220,45 @@ button, input, select, textarea {
     margin: 4px;
 }
 
+.button-logout, .button-login {
+    border: none;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    text-align: end;
+    cursor: pointer;
+    width: 5rem;
+    height: 2rem;
+    padding: 2px 8px 2px;
+    display: block;
+}
+
+.button-logout {
+    background-color: red;
+}
+
+.button-login {
+    background-color: #27ae60;
+}
+
+.block-form {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 10px;
+
+}
+
+
+.form-label {
+    display: inline-block;
+    width: 140px;
+    text-align: right;
+}
+
+.login-form {
+    text-align: left;
+    display: table;
+}
 
 textarea {
     overflow: auto;

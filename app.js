@@ -15,6 +15,8 @@ const lectApiRouter = require('./routes/api/LectureAPI');
 
 const sequalizeInit = require('./config/sequelize/init');
 
+const session = require('express-session');
+const authUtils = require("./config/util/authUtils");
 
 var app = express();
 
@@ -22,6 +24,7 @@ sequalizeInit()
     .catch(err => {
         console.error(err);
     });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,9 +36,24 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 
+app.use(session({
+    secret: 'my_secret_password',
+    resave: false
+}));
+
+app.use((req, res, next) => {
+    const loggedUser = req.session.loggedUser;
+    res.locals.loggedUser = loggedUser;
+    if (!res.locals.loginError) {
+        res.locals.loginError = undefined;
+    }
+    next();
+});
+
+
 app.set("view engine", "ejs");
 app.use('/', indexRouter);
-app.use('/professors', professorRouter);
+app.use('/professors', authUtils.permitAuthenticatedUser, professorRouter);
 app.use('/lectures', lectureRouter);
 app.use('/departments', departmentRouter);
 

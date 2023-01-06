@@ -4,6 +4,9 @@ const Professor = require('../../config/sequelize/Professor');
 const Department = require('../../config/sequelize/Department');
 const Lecture = require('../../config/sequelize/Lecture');
 
+const authUtil = require('../util/authUtils');
+const passHash = authUtil.hashPassword('12345')
+
 module.exports = () => {
     Professor.hasMany(Lecture, {
         as: 'lectures',
@@ -39,13 +42,15 @@ module.exports = () => {
                         firstName: 'Jan',
                         lastName: 'Kowalski',
                         email: 'jan.kowalski@utoronto.com',
-                        specialization: 'Analiza matematyczna'
+                        specialization: 'Analiza matematyczna',
+                        password: passHash
                     },
                     {
                         firstName: 'Miroslaw',
                         lastName: 'Ogorek',
                         email: 'miroslaw.ogorek@utoronto.com',
-                        specialization: 'Procesy fizyczne'
+                        specialization: 'Procesy fizyczne',
+                        password: passHash
                     }
                 ])
                     .then(() => {

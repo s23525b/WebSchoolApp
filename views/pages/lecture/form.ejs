@@ -90,7 +90,7 @@
 
         <% if (formMode === 'showDetails'){ %>
             <label for="duration">Czas trwania: <span class="symbol-required">*</span></label>
-            <input  type="text" name="duration" id="duration" placeholder="np. 30"
+            <input type="text" name="duration" id="duration" placeholder="np. 30"
                    value="<%= Math.round((((lect.dateTo - lect.dateFrom) / 1000) / 60)) + ' minut' %>"
                     <%= (formMode === 'showDetails') ? 'disabled' : '' %> required/>
             <span id="errorDuration" class="errors-text"></span>
