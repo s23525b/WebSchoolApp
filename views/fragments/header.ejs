@@ -30,7 +30,7 @@
             </form>
         </div>
     <% } else { %>
-        <span>Jesteś zalogowany jako: <%= loggedUser.firstName + ' ' + loggedUser.lastName %></span>
+        <span>Witaj,    <%= loggedUser.firstName + ' ! ' %></span>
         <a href="/logout" class="button-logout">Wyloguj</a>
     <% } %>
 </header>
@@ -42,5 +42,9 @@
         <% } %>
         <li><a href="/lectures" class="<%= navLocation == 'lect' ? 'active' : '' %>">Wykłady</a></li>
         <li><a href="/departments" class="<%= navLocation == 'dept' ? 'active' : '' %>">Katedry</a></li>
+
+        <li><a href="/changeLang/pl" class="<%= lang === 'pl' ? 'active' : '' %>">PL</a></li>
+        <li><a href="/changeLang/en" class="<%= lang === 'en' ? 'active' : '' %>">EN</a></li>
+
     </ul>
 </nav>

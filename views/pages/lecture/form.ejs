@@ -101,9 +101,11 @@
             </div>
         <% } %>
         <% if (formMode === 'showDetails') { %>
+            <% if (loggedUser) { %>
             <div class="form-buttons">
                 <a href="/lectures/edit/<%= lect._id %> " class="form-button-edit">Edytuj</a>
             </div>
+                <% } %>
         <% } %>
 
         <div class="form-buttons">
@@ -129,7 +131,9 @@
                 <th>Nazwisko</th>
                 <th>E-mail</th>
                 <th>Specjalizacja</th>
+                <% if (loggedUser) { %>
                 <th>Opcje</th>
+                    <% } %>
             </tr>
             </thead>
             <tbody>
@@ -138,18 +142,22 @@
                 <td><%= lect.professor.lastName %></td>
                 <td><%= lect.professor.email %></td>
                 <td><%= lect.professor.specialization %></td>
+                <% if (loggedUser) { %>
                 <td>
                     <ul class="list-actions">
                         <li>
                             <a href="/professors/details/<%= lect.professor._id %>"
                                class="list-actions-button-details">Szczegóły</a>
                         </li>
+                        <% if (loggedUser) { %>
                         <li>
                             <a href="/professors/delete/<%= lect.professor._id %>" class="list-actions-button-delete"
                                onclick="return confirm('Are you sure?')">Usuń</a>
                         </li>
+                            <% } %>
                     </ul>
                 </td>
+                    <% } %>
             </tr>
 
 
@@ -179,10 +187,12 @@
                             <a href="/departments/details/<%= lect.department._id %>"
                                class="list-actions-button-details">Szczegóły</a>
                         </li>
+                        <% if (loggedUser) { %>
                         <li>
                             <a href="/departments/delete/<%= lect.department._id %>" class="list-actions-button-delete"
                                onclick="return confirm('Are you sure?')">Usuń</a>
                         </li>
+                            <% } %>
                     </ul>
                 </td>
             </tr>

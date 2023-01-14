@@ -25,7 +25,8 @@ exports.createProfessor = (newProfData) => {
         firstName: newProfData.firstName,
         lastName: newProfData.lastName,
         email: newProfData.email,
-        specialization: newProfData.specialization
+        specialization: newProfData.specialization,
+        password: newProfData.password
     });
 };
 

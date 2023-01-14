@@ -21,9 +21,11 @@
                         <li><a href="/lectures/details/<%= lect._id %>" class="list-actions-button-details">
                                 Szczegóły</a>
                         </li>
+                        <% if (loggedUser) { %>
                         <li><a href="/lectures/edit/<%= lect._id %>" class="list-actions-button-edit"> Edytuj</a></li>
                         <li><a href="/lectures/delete/<%= lect._id %>" class="list-actions-button-delete"> Usuń</a>
                         </li>
+                            <% } %>
                     </ul>
                 </td>
             </tr>

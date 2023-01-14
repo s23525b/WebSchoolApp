@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 const professorRouter = require('./routes/professorRoute');
 const lectureRouter = require('./routes/lectureRoute');
@@ -17,6 +18,8 @@ const sequalizeInit = require('./config/sequelize/init');
 
 const session = require('express-session');
 const authUtils = require("./config/util/authUtils");
+
+var i18n = require('i18n');
 
 var app = express();
 
@@ -41,11 +44,32 @@ app.use(session({
     resave: false
 }));
 
+app.use(i18n.init);
 app.use((req, res, next) => {
     const loggedUser = req.session.loggedUser;
     res.locals.loggedUser = loggedUser;
     if (!res.locals.loginError) {
         res.locals.loginError = undefined;
+    }
+    next();
+});
+
+app.use(cookieParser('secret'));
+
+
+i18n.configure({
+    locales: ['pl', 'en'],
+    directory: path.join(__dirname, 'locales'),
+    defaultLocale: 'pl',
+    objectNation: true,
+    cookie: 'utoronto-lang',
+});
+
+
+app.use((req, res, next) => {
+    if (!res.locals.lang) {
+        const currentLang = req.cookies['utoronto-lang'];
+        res.locals.lang = currentLang;
     }
     next();
 });

@@ -3,11 +3,11 @@
     <h2>Lista profesorów</h2>
     <table class="table-list">
         <tr>
-            <th class="tableName">Imię</th>
-            <th class="tableSurname">Nazwisko</th>
-            <th class="tableEmail">E-mail</th>
-            <th class="tableSpec">Specjalizacja</th>
-            <th class="tableSettings">Opcje</th>
+            <th class="tableName"><%= __('prof.fields.firstName') %></th>
+            <th class="tableSurname"><%= __('prof.fields.lastName') %></th>
+            <th class="tableEmail"><%= __('prof.fields.email') %></th>
+            <th class="tableSpec"><%= __('prof.fields.specialization') %></th>
+            <th class="tableSettings"><%= __('prof.fields.settings') %></th>
         </tr>
         <tbody>
         <% for (let prof of profs) { %>
@@ -21,9 +21,11 @@
                         <li><a href="/professors/details/<%= prof._id %>" class="list-actions-button-details">
                                 Szczegóły</a>
                         </li>
+                        <% if (loggedUser) { %>
                         <li><a href="/professors/edit/<%= prof._id %>" class="list-actions-button-edit"> Edytuj</a></li>
                         <li><a href="/professors/delete/<%= prof._id %>" class="list-actions-button-delete"> Usuń</a>
                         </li>
+                            <% } %>
                     </ul>
                 </td>
             </tr>

@@ -1,0 +1,66 @@
+{
+	"main-page": {
+		"content": "Main page"
+	},
+	"nav": {
+		"main-page": "Main page",
+		"professors": "Professors",
+		"departments": "Departments",
+		"lectures": "Lectures"
+	},
+	"list": {
+		"actions": {
+			"title": "Settings",
+			"details": "Details",
+			"edit": "Edit",
+			"delete": "Delete"
+		}
+	},
+	"form": {
+		"actions": {
+			"return": "Back",
+			"edit": "Edit",
+			"cancel": "Cancel"
+		}
+	},
+	"prof": {
+		"fields": {
+			"firstName": "First name",
+			"lastName": "Last name",
+			"email": "Email",
+			"specialization": "Specialization",
+			"settings": "Settings",
+			"password": "Password"
+		},
+		"list": {
+			"title": "Professors",
+			"addNew": "Add",
+			"noData": "No professors in database",
+			"pageTitle": "List of professors"
+		},
+		"form": {
+			"lecture": "Professor's lectures",
+			"add": {
+				"pageTitle": "New professor",
+				"btnLabel": "Add",
+				"confirm": {
+					"header": "Confirmation",
+					"text": "The professor has been added successfully"
+				}
+			},
+			"edit": {
+				"pageTitle": "Edit",
+				"btnLabel": "Save",
+				"confirm": {
+					"header": "Confirmation",
+					"text": "The professor has been updated successfully"
+				}
+			}
+		}
+	},
+	"prof.fields.firstName": "prof.fields.firstName",
+	"prof.fields.lastName": "prof.fields.lastName",
+	"prof.fields.email": "prof.fields.email",
+	"prof.fields.specialization": "prof.fields.specialization",
+	"prof.fields.settings": "prof.fields.settings"
+}

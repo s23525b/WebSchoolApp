@@ -45,6 +45,11 @@
                 <%= (formMode === 'showDetails') ? 'disabled' : '' %>/>
         <span id="errorSpecialization" class="errors-text"></span>
 
+        <% if (formMode !== 'showDetails') { %>
+            <label for="password">Hasło: <span class="symbol-required">*</span></label>
+            <input type="password" name="password" id="password"  value="<%= prof.password %>" required>
+        <% } %>
+
         <div class="form-buttons">
             <% if (formMode !== 'showDetails'){ %>
             <% } %>

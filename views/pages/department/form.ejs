@@ -42,9 +42,11 @@
         <% } %>
 
         <% if (formMode === 'showDetails') { %>
+            <% if (loggedUser) { %>
             <div class="form-buttons">
                 <a href="/departments/edit/<%= dept._id %> " class="form-button-edit">Edytuj</a>
             </div>
+                <% } %>
         <% } %>
         <div class="form-buttons">
             <span class="errors-text" id="errorsSummary"></span>
@@ -84,10 +86,12 @@
                                 <a href="/lectures/details/<%= l._id %>"
                                    class="list-actions-button-details">Szczegóły</a>
                             </li>
+                            <% if (loggedUser) { %>
                             <li>
                                 <a href="/lectures/delete/<%= l._id %>" class="list-actions-button-delete"
                                    onclick="return confirm('Are you sure?')">Usuń</a>
                             </li>
+                                <% } %>
                         </ul>
                     </td>
                 </tr>
