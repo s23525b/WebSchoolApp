@@ -1,61 +1,66 @@
 {
-  "main-page": {
-    "content": "Strona główna"
-  },
-  "nav": {
-    "main-page": "Strona główna",
-    "professors": "Profesorowie",
-    "departments": "Katedry",
-    "lectures": "Wykłady"
-  },
-  "list": {
-    "actions": {
-      "title": "Akcje",
-      "details": "Szczegóły",
-      "edit": "Edytuj",
-      "delete": "Usuń"
-    }
-  },
-  "form": {
-    "actions": {
-      "title": "Opcje",
-      "return": "Powrót",
-      "edit": "Edytuj",
-      "cancel": "Anuluj"
-    }
-  },
-  "prof": {
-    "fields": {
-      "firstName": "Imię",
-      "lastName": "Nazwisko",
-      "email": "Email",
-      "specialization": "Specjalizacja",
-      "password": "Hasło"
-    },
-    "list": {
-      "title": "Profesorowie",
-      "addNew": "Dodaj",
-      "noData": "Brak profesora w bazie",
-      "pageTitle": "Lista profesorów"
-    },
-    "form": {
-      "lecture": "Wykłady profesora",
-      "add": {
-        "pageTitle": "Nowy profesor",
-        "btnLabel": "Dodaj",
-        "confirm": {
-          "header": "Potwierdzenie operacji",
-          "text": "Pomyślnie dodano profesora"
-        }
-      },
-      "edit": {
-        "pageTitle": "Edycja profesora",
-        "btnLabel": "Zapisz",
-        "confirm": {
-          "header": "Potwierdzenie operacji",
-          "text": "Pomyślnie zaktualizowano profesora"
-        }
-      }
-    }
-  }
+	"main-page": {
+		"content": "Strona główna"
+	},
+	"nav": {
+		"main-page": "Strona główna",
+		"professors": "Profesorowie",
+		"departments": "Katedry",
+		"lectures": "Wykłady"
+	},
+	"list": {
+		"actions": {
+			"title": "Akcje",
+			"details": "Szczegóły",
+			"edit": "Edytuj",
+			"delete": "Usuń"
+		}
+	},
+	"form": {
+		"actions": {
+			"title": "Opcje",
+			"return": "Powrót",
+			"edit": "Edytuj",
+			"cancel": "Anuluj"
+		}
+	},
+	"prof": {
+		"fields": {
+			"firstName": "Imię",
+			"lastName": "Nazwisko",
+			"email": "Email",
+			"specialization": "Specjalizacja",
+			"password": "Hasło"
+		},
+		"list": {
+			"title": "Profesorowie",
+			"addNew": "Dodaj",
+			"noData": "Brak profesora w bazie",
+			"pageTitle": "Lista profesorów"
+		},
+		"form": {
+			"lecture": "Wykłady profesora",
+			"add": {
+				"pageTitle": "Nowy profesor",
+				"btnLabel": "Dodaj",
+				"confirm": {
+					"header": "Potwierdzenie operacji",
+					"text": "Pomyślnie dodano profesora"
+				}
+			},
+			"edit": {
+				"pageTitle": "Edycja profesora",
+				"btnLabel": "Zapisz",
+				"confirm": {
+					"header": "Potwierdzenie operacji",
+					"text": "Pomyślnie zaktualizowano profesora"
+				}
+			}
+		}
+	},
+	"prof.fields.firstName": "prof.fields.firstName",
+	"prof.fields.lastName": "prof.fields.lastName",
+	"prof.fields.email": "prof.fields.email",
+	"prof.fields.specialization": "prof.fields.specialization",
+	"prof.fields.settings": "prof.fields.settings"
 }
